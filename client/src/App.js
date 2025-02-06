@@ -18,8 +18,8 @@ import "./styles/App.css"
 function App() {
   return (
     <AuthProvider>
-      <WishlistProvider>
-        <CartProvider>
+      <CartProvider>
+        <WishlistProvider>
           <Router>
             <div className="App">
               <Navbar />
@@ -36,8 +36,8 @@ function App() {
               </Routes>
             </div>
           </Router>
-        </CartProvider>
-      </WishlistProvider>
+        </WishlistProvider>
+      </CartProvider>
     </AuthProvider>
   )
 }

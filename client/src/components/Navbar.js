@@ -1,4 +1,6 @@
-import React, { useContext } from "react"
+"use client"
+
+import { useContext } from "react"
 import { Link } from "react-router-dom"
 import { AuthContext } from "../context/AuthContext"
 import CartIcon from "./CartIcon"
@@ -79,9 +81,6 @@ const styles = {
     color: "#FFEBD8",
     fontWeight: "500",
     transition: "color 0.3s ease",
-    ":hover": {
-      color: "#FFC5C5",
-    },
   },
   rightSection: {
     display: "flex",
@@ -101,9 +100,6 @@ const styles = {
     textDecoration: "none",
     fontWeight: "500",
     transition: "background-color 0.3s ease",
-    ":hover": {
-      backgroundColor: "#FFC5C5",
-    },
   },
 }
 

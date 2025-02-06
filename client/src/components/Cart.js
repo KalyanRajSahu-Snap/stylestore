@@ -1,108 +1,137 @@
-// client/src/components/Cart.js
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { CartContext } from '../context/CartContext';
-import { AuthContext } from '../context/AuthContext';
+"use client"
+import { useCart } from "../context/CartContext"
+import { Link } from "react-router-dom"
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
-  const { user } = useContext(AuthContext);
+  const { cart, removeFromCart, updateQuantity } = useCart()
 
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0)
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Your Cart</h2>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+      <h1 style={styles.title}>Your Cart</h1>
+      {cart.length === 0 ? (
+        <div style={styles.emptyCart}>
+          <p>Your cart is empty</p>
+          <Link to="/" style={styles.continueShoppingLink}>
+            Continue Shopping
+          </Link>
+        </div>
       ) : (
         <>
-          {cartItems.map((item) => (
-            <div key={item.id} style={styles.item}>
-              <img src={item.image || "/placeholder.svg"} alt={item.name} style={styles.image} />
-              <div style={styles.details}>
-                <h3>{item.name}</h3>
-                <p>Price: ${item.price}</p>
-                <div style={styles.quantity}>
-                  <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+          {cart.map((item) => (
+            <div key={item.id} style={styles.cartItem}>
+              <img src={item.image || "/placeholder.svg"} alt={item.name} style={styles.itemImage} />
+              <div style={styles.itemDetails}>
+                <h3 style={styles.itemName}>{item.name}</h3>
+                <p style={styles.itemPrice}>Price: ${item.price.toFixed(2)}</p>
+                <div style={styles.quantityControl}>
+                  <button onClick={() => updateQuantity(item.id, item.quantity - 1)} style={styles.quantityButton}>
+                    -
+                  </button>
+                  <span style={styles.quantity}>{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.id, item.quantity + 1)} style={styles.quantityButton}>
+                    +
+                  </button>
                 </div>
+                <button onClick={() => removeFromCart(item.id)} style={styles.removeButton}>
+                  Remove
+                </button>
               </div>
-              <button onClick={() => removeFromCart(item.id)} style={styles.removeButton}>Remove</button>
             </div>
           ))}
           <div style={styles.total}>
-            <h3>Total: ${total.toFixed(2)}</h3>
+            <h3>Total: ${totalPrice.toFixed(2)}</h3>
+            <button style={styles.checkoutButton}>Proceed to Checkout</button>
           </div>
-          {user ? (
-            <Link to="/checkout" style={styles.checkoutButton}>Proceed to Checkout</Link>
-          ) : (
-            <p>Please <Link to="/login" style={styles.link}>login</Link> to checkout.</p>
-          )}
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 const styles = {
   container: {
-    padding: '2rem',
-    fontFamily: 'San Francisco, sans-serif',
+    maxWidth: "800px",
+    margin: "0 auto",
+    padding: "2rem",
   },
   title: {
-    fontSize: '2rem',
-    marginBottom: '1rem',
-    color: '#89B9AD',
+    fontSize: "2rem",
+    color: "#89B9AD",
+    marginBottom: "2rem",
   },
-  item: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '1rem',
-    padding: '1rem',
-    backgroundColor: '#FFEBD8',
-    borderRadius: '4px',
+  emptyCart: {
+    textAlign: "center",
+    marginTop: "2rem",
   },
-  image: {
-    width: '100px',
-    height: '100px',
-    objectFit: 'cover',
-    marginRight: '1rem',
+  continueShoppingLink: {
+    display: "inline-block",
+    marginTop: "1rem",
+    padding: "0.5rem 1rem",
+    backgroundColor: "#89B9AD",
+    color: "#FFEBD8",
+    textDecoration: "none",
+    borderRadius: "4px",
   },
-  details: {
+  cartItem: {
+    display: "flex",
+    borderBottom: "1px solid #eee",
+    paddingBottom: "1rem",
+    marginBottom: "1rem",
+  },
+  itemImage: {
+    width: "100px",
+    height: "100px",
+    objectFit: "cover",
+    marginRight: "1rem",
+  },
+  itemDetails: {
     flex: 1,
   },
+  itemName: {
+    fontSize: "1.2rem",
+    color: "#333",
+  },
+  itemPrice: {
+    color: "#666",
+  },
+  quantityControl: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: "0.5rem",
+  },
+  quantityButton: {
+    padding: "0.25rem 0.5rem",
+    backgroundColor: "#C7DCA7",
+    border: "none",
+    cursor: "pointer",
+  },
   quantity: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
+    margin: "0 0.5rem",
   },
   removeButton: {
-    padding: '0.5rem',
-    backgroundColor: '#FFC5C5',
-    color: '#89B9AD',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    marginTop: "0.5rem",
+    padding: "0.25rem 0.5rem",
+    backgroundColor: "#FFC5C5",
+    color: "#333",
+    border: "none",
+    cursor: "pointer",
   },
   total: {
-    marginTop: '1rem',
-    textAlign: 'right',
+    marginTop: "2rem",
+    textAlign: "right",
   },
   checkoutButton: {
-    display: 'inline-block',
-    padding: '0.5rem 1rem',
-    backgroundColor: '#89B9AD',
-    color: '#FFEBD8',
-    textDecoration: 'none',
-    borderRadius: '4px',
-    marginTop: '1rem',
+    marginTop: "1rem",
+    padding: "0.5rem 1rem",
+    backgroundColor: "#89B9AD",
+    color: "#FFEBD8",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   },
-  link: {
-    color: '#89B9AD',
-    textDecoration: 'none',
-  },
-};
+}
 
-export default Cart;
+export default Cart
+

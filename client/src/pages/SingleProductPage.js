@@ -1,11 +1,15 @@
+"use client"
+
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { useCart } from "../context/CartContext"
 
 const SingleProductPage = () => {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [selectedSize, setSelectedSize] = useState("")
   const [quantity, setQuantity] = useState(1)
+  const { addToCart } = useCart()
 
   useEffect(() => {
     // In a real application, you would fetch the product data from an API
@@ -24,6 +28,15 @@ const SingleProductPage = () => {
 
   if (!product) {
     return <div>Loading...</div>
+  }
+
+  const handleAddToCart = () => {
+    if (selectedSize) {
+      addToCart({ ...product, size: selectedSize }, quantity)
+      alert("Product added to cart!")
+    } else {
+      alert("Please select a size before adding to cart.")
+    }
   }
 
   return (
@@ -61,7 +74,9 @@ const SingleProductPage = () => {
               +
             </button>
           </div>
-          <button style={styles.addToCartButton}>Add to Cart</button>
+          <button style={styles.addToCartButton} onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

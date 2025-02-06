@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import WishlistIcon from "./WishlistIcon"
+import { useCart } from "../context/CartContext"
 
 const styles = {
   card: {
@@ -46,7 +47,13 @@ const styles = {
   },
 }
 
-const ProductCard = ({ product, addToCart, removeFromWishlist }) => {
+const ProductCard = ({ product, removeFromWishlist }) => {
+  const { addToCart } = useCart()
+
+  const handleAddToCart = () => {
+    addToCart(product)
+  }
+
   return (
     <div style={styles.card}>
       <Link to={`/product/${product.id}`}>
@@ -56,7 +63,7 @@ const ProductCard = ({ product, addToCart, removeFromWishlist }) => {
       </Link>
       <div style={styles.actions}>
         <WishlistIcon product={product} />
-        <button onClick={() => addToCart(product)} style={styles.button}>
+        <button onClick={handleAddToCart} style={styles.button}>
           Add to Cart
         </button>
         {removeFromWishlist && (
