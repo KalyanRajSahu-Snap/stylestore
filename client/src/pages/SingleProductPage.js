@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useCart } from "../context/CartContext"
+import { formatPrice } from "../utils/formatPrice"
 
 const SingleProductPage = () => {
   const { id } = useParams()
@@ -17,7 +18,7 @@ const SingleProductPage = () => {
     const dummyProduct = {
       id: id,
       name: "Sample Product",
-      price: 49.99,
+      price: 4999, // Price in INR
       image: "/placeholder.svg",
       sizes: ["S", "M", "L", "XL"],
       description:
@@ -47,7 +48,7 @@ const SingleProductPage = () => {
         </div>
         <div style={styles.productInfo}>
           <h1 style={styles.productName}>{product.name}</h1>
-          <p style={styles.productPrice}>${product.price.toFixed(2)}</p>
+          <p style={styles.productPrice}>{formatPrice(product.price)}</p>
           <p style={styles.productDescription}>{product.description}</p>
           <div style={styles.sizeContainer}>
             <p style={styles.sizeTitle}>Available Sizes:</p>

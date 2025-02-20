@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import WishlistIcon from "./WishlistIcon"
 import { useCart } from "../context/CartContext"
+import { formatPrice } from "../utils/formatPrice"
 
 const styles = {
   card: {
@@ -59,7 +60,7 @@ const ProductCard = ({ product, removeFromWishlist }) => {
       <Link to={`/product/${product.id}`}>
         <img src={product.imageUrl || "/placeholder.svg"} alt={product.name} style={styles.image} />
         <h3 style={styles.name}>{product.name}</h3>
-        <p style={styles.price}>${product.price.toFixed(2)}</p>
+        <p style={styles.price}>{formatPrice(product.price)}</p>
       </Link>
       <div style={styles.actions}>
         <WishlistIcon product={product} />

@@ -37,7 +37,9 @@ const Navbar = () => {
         {user ? (
           <>
             <span style={styles.greeting}>Hi, {user.name}</span>
-            <WishlistIcon product={{ id: "navbar" }} isNavbar={true} />
+            <Link to="/wishlist" style={styles.iconLink}>
+              <WishlistIcon product={{ id: "navbar" }} isNavbar={true} />
+            </Link>
             <CartIcon />
             <button onClick={handleLogout} style={styles.authButton}>
               Logout
@@ -100,6 +102,13 @@ const styles = {
     textDecoration: "none",
     fontWeight: "500",
     transition: "background-color 0.3s ease",
+  },
+  iconLink: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: "1rem",
+    color: "#FFEBD8",
+    textDecoration: "none",
   },
 }
 

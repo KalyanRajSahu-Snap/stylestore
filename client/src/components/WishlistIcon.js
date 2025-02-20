@@ -55,4 +55,3 @@ const WishlistIcon = ({ product, isNavbar = false }) => {
 }
 
 export default WishlistIcon
-

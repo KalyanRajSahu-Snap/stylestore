@@ -1,6 +1,7 @@
 "use client"
 import { useCart } from "../context/CartContext"
 import { Link } from "react-router-dom"
+import { formatPrice } from "../utils/formatPrice"
 
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity } = useCart()
@@ -24,7 +25,7 @@ const Cart = () => {
               <img src={item.image || "/placeholder.svg"} alt={item.name} style={styles.itemImage} />
               <div style={styles.itemDetails}>
                 <h3 style={styles.itemName}>{item.name}</h3>
-                <p style={styles.itemPrice}>Price: ${item.price.toFixed(2)}</p>
+                <p style={styles.itemPrice}>Price: {formatPrice(item.price)}</p>
                 <div style={styles.quantityControl}>
                   <button onClick={() => updateQuantity(item.id, item.quantity - 1)} style={styles.quantityButton}>
                     -
@@ -41,7 +42,7 @@ const Cart = () => {
             </div>
           ))}
           <div style={styles.total}>
-            <h3>Total: ${totalPrice.toFixed(2)}</h3>
+            <h3>Total: {formatPrice(totalPrice)}</h3>
             <button style={styles.checkoutButton}>Proceed to Checkout</button>
           </div>
         </>
