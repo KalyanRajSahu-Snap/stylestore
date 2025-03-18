@@ -14,6 +14,7 @@ import Signup from "./components/Signup"
 import WishlistPage from "./components/WishlistPage"
 import Cart from './components/Cart';
 import "./styles/App.css"
+import Footer from "./components/Footer"
 
 function App() {
   return (
@@ -21,8 +22,9 @@ function App() {
       <CartProvider>
         <WishlistProvider>
           <Router>
-            <div className="App">
+          <div className="App" style={styles.app}>
               <Navbar />
+              <main style={styles.main}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/mens" element={<MensPage />} />
@@ -34,6 +36,8 @@ function App() {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/product/:id" element={<SingleProductPage />} />
               </Routes>
+              </main>
+              <Footer/>
             </div>
           </Router>
         </WishlistProvider>
@@ -42,4 +46,15 @@ function App() {
   )
 }
 
+
+const styles = {
+  app: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+  },
+  main: {
+    flex: "1 0 auto",
+  },
+}
 export default App
